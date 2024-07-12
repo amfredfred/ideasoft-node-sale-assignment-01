@@ -1,5 +1,6 @@
 import "reflect-metadata"
 import { DataSource } from "typeorm"
+require('dotenv').config();
 
 const database = process.env.POSTGRESQL_DB
 const username = process.env.POSTGRESQL_USERNAME
