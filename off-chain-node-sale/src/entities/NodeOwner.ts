@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, Timestamp, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany } from "typeorm";
 import { NodeFractionalLicense } from "./NodeFractionalLicense";
 
 @Entity({ name: 'node_owners' })
@@ -15,8 +15,8 @@ export class NodeOwner {
     @Column({ type: "decimal", default: 0 })
     rewards: number;
 
-    @OneToMany(() => NodeFractionalLicense, nfl => nfl.node_fractional_license_owner, { onDelete: 'RESTRICT' })
-    node_fractional_licenses: NodeFractionalLicense
+    @OneToMany('NodeFractionalLicense', 'owner', { onDelete: 'RESTRICT' })
+    fractional_licenses: NodeFractionalLicense[]
 
     @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     created_at: Date;

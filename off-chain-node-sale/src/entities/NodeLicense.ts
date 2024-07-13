@@ -16,11 +16,11 @@ export class NodeLicense {
   @Column({ type: 'bigint' })
   available_fractions: number
 
-  @OneToMany(() => NodeFractionalLicense, nfl => nfl.node_license)
+  @OneToMany('NodeFractionalLicense', 'license', { onDelete: 'RESTRICT' })
   fractional_licenses: NodeFractionalLicense[];
 
-  @ManyToOne(() => NodeLicenseBatch, nlb => nlb.node_licenses)
-  nodeLicense_batch: NodeLicenseBatch
+  @ManyToOne('NodeLicenseBatch', 'licenses', { onDelete: 'RESTRICT' })
+  license_batch: NodeLicenseBatch
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
