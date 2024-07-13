@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, Up
 import { NodeLicense } from './NodeLicense';
 
 @Entity({ name: 'node_fractional_licenses' })
-export class FractionalLicense {
+export class NodeFractionalLicense {
   @PrimaryGeneratedColumn()
   id: number;
 

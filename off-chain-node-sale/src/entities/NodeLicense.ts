@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn, UpdateDateColumn } from 'typeorm';
-import { FractionalLicense } from './NodeFractionalLicense';
+import { NodeFractionalLicense } from './NodeFractionalLicense';
 
 @Entity({name:'node_licenses'})
 export class NodeLicense {
@@ -9,8 +9,8 @@ export class NodeLicense {
   @Column()
   batchId: number;
 
-  @OneToMany(() => FractionalLicense, fractionalLicense => fractionalLicense.nodeLicense)
-  fractionalLicenses: FractionalLicense[];
+  @OneToMany(() => NodeFractionalLicense, fractionalLicense => fractionalLicense.nodeLicense)
+  fractionalLicenses: NodeFractionalLicense[];
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
