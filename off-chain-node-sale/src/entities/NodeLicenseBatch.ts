@@ -7,11 +7,8 @@ export class NodeLicenseBatch {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  nodeLicenseCount: number;
-
-  @OneToOne(() => NodeLicense, nodeLicense => nodeLicense.nodeLicenseBatch)
-  nodeLicense: NodeLicense
+  @OneToMany(() => NodeLicense, nl => nl.nodeLicense_batch)
+  node_licenses: NodeLicense[]
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;

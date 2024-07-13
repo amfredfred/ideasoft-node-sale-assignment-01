@@ -8,11 +8,11 @@ export class NodeFractionalLicense {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => NodeLicense, nodeLicense => nodeLicense.fractionalLicenses)
-  nodeLicense: NodeLicense;
+  @ManyToOne(() => NodeLicense, nl => nl.fractional_licenses)
+  node_license: NodeLicense;
 
-  @ManyToOne(() => NodeOwner, nodeOwner => nodeOwner.nodeFractionalOwner)
-  nodeOwner: NodeOwner
+  @ManyToOne(() => NodeOwner, nflo => nflo.node_fractional_licenses)
+  node_fractional_license_owner: NodeOwner
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
