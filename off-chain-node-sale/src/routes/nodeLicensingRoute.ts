@@ -9,7 +9,7 @@ import nodeLicenseBuyer from "../middlewares/nodeLicenseBuyer";
 const route = express.Router()
 route.use(nodeLicenseBuyer)
 
-route.post('/buy-fraction', async (req, res) => {
+route.post('buy-fraction', async (req, res) => {
     const { buyer } = req.body;
 
     const fractionalLicenseRepository = dataSource.getRepository(NodeFractionalLicense);

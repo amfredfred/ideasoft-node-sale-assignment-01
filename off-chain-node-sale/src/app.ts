@@ -15,6 +15,7 @@ const corsOptions = {
 app.use(cors(corsOptions))
 app.options('*', cors(corsOptions));
 app.use(onRequestReceived)
+app.use(express.json());
 
 app.post("/purchase", purchaseShares);
 app.post("/distribute", distributeRewards);

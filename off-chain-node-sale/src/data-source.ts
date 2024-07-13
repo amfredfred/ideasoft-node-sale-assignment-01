@@ -1,5 +1,9 @@
 import "reflect-metadata"
 import { DataSource } from "typeorm"
+import { NodeOwner } from "./entities/NodeOwner";
+import { NodeLicense } from "./entities/NodeLicense";
+import { NodeFractionalLicense } from "./entities/NodeFractionalLicense";
+import { NodeLicenseBatch } from "./entities/NodeLicenseBatch";
 require('dotenv').config();
 
 const database = process.env.POSTGRESQL_DB
@@ -14,9 +18,10 @@ export const dataSource = new DataSource({
     username,
     password,
     database,
-    synchronize: true,
-    logging: false,
-    entities: ['./entities/**.ts'],
-    migrations: ['./migrations/**.ts'],
+    // synchronize: true,
+    logging: true,
+    entities: [NodeOwner, NodeLicense, NodeFractionalLicense, NodeLicenseBatch],
+    migrations: ['./migrations/*.ts'],
     subscribers: [],
+    migrationsTableName: `${database}_migration_table`,
 })
