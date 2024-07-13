@@ -6,14 +6,14 @@ Content-Type: application/json
 
 {
     "address" : "0x00987654345yukjhvfghjkjhgyuikjde7y8udiyeueude"
-}696309d0SKIP411dSKIP11efSKIP8c5bSKIPcfbdbf150f1e
+}
 
 ###
 POST http://localhost:8080/create-license
 Content-Type: application/json
 
 {
-    "batch_uuid" : "696309d0SKIP411dSKIP11efSKIP8c5bSKIPcfbdbf150f1e"
+    "batch_uuid" : "e22fae00-411c-11ef-bc81-41d8756d9fb0"
 }
 
 ###
@@ -25,4 +25,15 @@ Content-Type: application/json
     "quantity":2,
     "payment_hash":"HASH",
     "amount_paid":34567
+}
+###
+POST  http://localhost:8080/batches
+Content-Type: application/json
+
+###
+POST  http://localhost:8080/licenses
+Content-Type: application/json
+
+{
+    "batch_uuid":"e22fae00-411c-11ef-bc81-41d8756d9fb0"
 }

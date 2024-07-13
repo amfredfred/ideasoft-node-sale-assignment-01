@@ -5,13 +5,19 @@ import { NodeLicenseBatch } from "../entities/NodeLicenseBatch"
 import { NodeLicensModel } from "./NodeLicensModel"
 
 export class NodeBatchModel {
-    async licenses(license_batch: NodeLicenseBatch): Promise<NodeLicense[]> {
+    async licenses(batch_uuid: string): Promise<NodeLicense[]> {
+        if (typeof batch_uuid !== 'string') return []
         const licenses = new NodeLicensModel()
-        return await licenses.allByBatch(license_batch)
+        return await licenses.getAllLicensesByBatchUuid(batch_uuid)
     }
 
     async getBatchByuuid(batch_uuid: string): Promise<NodeLicenseBatch> {
         const licenseBatch = await dataSource.manager.findOneBy(NodeLicenseBatch, { batch_uuid })
         return licenseBatch
+    }
+
+    async getAllBatches(): Promise<NodeLicenseBatch[]> {
+        const licenseBatches = await dataSource.manager.find(NodeLicenseBatch)
+        return licenseBatches
     }
 }

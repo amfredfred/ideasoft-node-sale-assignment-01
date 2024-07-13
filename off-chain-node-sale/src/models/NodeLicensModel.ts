@@ -17,9 +17,9 @@ export class NodeLicensModel {
         return nodeLicensFractions
     }
 
-    async allByBatch(license_batch: NodeLicenseBatch): Promise<NodeLicense[]> {
-        if (!(license_batch instanceof NodeLicenseBatch)) return []
-        const nodeLicenses = await dataSource.manager.findBy(NodeLicense, { license_batch })
+    async getAllLicensesByBatchUuid(batch_uuid: string): Promise<NodeLicense[]> {
+        if (typeof batch_uuid !== 'string') return []
+        const nodeLicenses = await dataSource.manager.findBy(NodeLicense, { license_batch: { batch_uuid } })
         return nodeLicenses
     }
 

@@ -79,7 +79,7 @@ export const PurchaseLicenseFraction = async (req: IPurchaseLicenseFraction, res
     } catch (error) {
         await queryRunner.rollbackTransaction();
         console.error('Error purchasing license fraction:', error);
-        res.status(500).json({ message: 'Internal Server Error!', error: String(error) });
+        res.status(500).json({ message: 'Internal Server Error!', error });
     } finally {
         await queryRunner.release();
     }
@@ -94,10 +94,9 @@ export const CreateLicenseBatch = async (req: ICustomRequest, res: Response) => 
         batch.batch_uuid = modifiedUuid
         batch.expiring_timestamp = Number(body?.expiring_timestamp) || null
         const createdBatch = await dataSource.manager.save(batch)
-        res.json({ message: 'License batch created successfully!', batch: createdBatch })
+        res.status(201).json({ message: 'License batch created successfully!', batch: createdBatch })
     } catch (error) {
-        res.status(500).json({ message: 'Internal Server Error!', error: String(error) })
-        console.log(String(error))
+        res.status(500).json({ message: 'Internal Server Error!', error })
     }
 }
 
@@ -123,9 +122,9 @@ export const CreateLicense = async (req: ICustomRequest, res: Response) => {
         license.total_fractions = 500;
 
         const createdLicense = await dataSource.manager.save(license);
-        res.json({ message: 'License created successfully!', license: createdLicense });
+        res.status(201).json({ message: 'License created successfully!', license: createdLicense });
     } catch (error) {
         console.error('Error creating license:', error);
-        res.status(500).json({ message: 'Internal Server Error!', error: String(error) });
+        res.status(500).json({ message: 'Internal Server Error!', error });
     }
 };

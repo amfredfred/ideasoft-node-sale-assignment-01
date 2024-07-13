@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import onRequestReceived from "./middlewares/onRequestReceived"
 import { CreateLicense, CreateLicenseBatch, PurchaseLicenseFraction } from './controllers/LicenseController';
+import { GetBatches, GetLicenses } from './controllers/FrontController';
 
 const app = express()
 
@@ -16,11 +17,11 @@ app.options('*', cors(corsOptions));
 app.use(onRequestReceived)
 app.use(express.json());
 
-
 app.post('/buy-license-fraction', PurchaseLicenseFraction)
 app.post('/create-batch', CreateLicenseBatch)
 app.post('/create-license', CreateLicense)
-
+app.post('/batches', GetBatches)
+app.post('/licenses', GetLicenses)
 
 app.use(function (req, res, next) {
     console.log("Not Found")
