@@ -7,7 +7,7 @@ export class NodeLicense {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2 })
+  @Column({ type: 'decimal', precision: 10, scale: 5 })
   price_per_fraction: number
 
   @Column({ type: 'bigint' })

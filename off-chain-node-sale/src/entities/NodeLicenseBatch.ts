@@ -6,6 +6,12 @@ export class NodeLicenseBatch {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column()
+  batch_uuid: string
+
+  @Column({ nullable: true, type: 'bigint' })
+  expiring_timestamp: number
+
   @OneToMany('NodeLicense', 'license_batch', { onDelete: 'RESTRICT' })
   licenses: NodeLicense[]
 

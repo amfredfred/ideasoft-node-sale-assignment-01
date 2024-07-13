@@ -1,9 +1,28 @@
 GET http://localhost:8080
 
 ###
-POST http://localhost:8080/buy-fraction
+POST http://localhost:8080/create-batch
 Content-Type: application/json
 
 {
     "address" : "0x00987654345yukjhvfghjkjhgyuikjde7y8udiyeueude"
+}696309d0SKIP411dSKIP11efSKIP8c5bSKIPcfbdbf150f1e
+
+###
+POST http://localhost:8080/create-license
+Content-Type: application/json
+
+{
+    "batch_uuid" : "696309d0SKIP411dSKIP11efSKIP8c5bSKIPcfbdbf150f1e"
+}
+
+###
+POST http://localhost:8080/buy-license-fraction
+Content-Type: application/json
+
+{
+    "license_id" : "2",
+    "quantity":2,
+    "payment_hash":"HASH",
+    "amount_paid":34567
 }

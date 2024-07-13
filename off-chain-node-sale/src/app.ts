@@ -2,7 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import onRequestReceived from "./middlewares/onRequestReceived"
 import { claimRewards, distributeRewards, purchaseShares } from './controllers/nodeOwnerController';
-import { PurchaseLicenseFraction } from './controllers/LicenseController';
+import { CreateLicense, CreateLicenseBatch, PurchaseLicenseFraction } from './controllers/LicenseController';
 
 const app = express()
 
@@ -18,7 +18,10 @@ app.use(onRequestReceived)
 app.use(express.json());
 
 
-app.post('/buy-fraction', PurchaseLicenseFraction)
+app.post('/buy-license-fraction', PurchaseLicenseFraction)
+app.post('/create-batch', CreateLicenseBatch)
+app.post('/create-license', CreateLicense)
+
 
 app.post("/purchase", purchaseShares);
 app.post("/distribute", distributeRewards);

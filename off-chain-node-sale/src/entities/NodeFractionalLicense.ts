@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn, OneToOne, OneToMany, ManyToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn, OneToOne, OneToMany, ManyToMany, Column } from 'typeorm';
 import { NodeLicense } from './NodeLicense';
 import { NodeOwner } from './NodeOwner';
 
@@ -10,6 +10,12 @@ export class NodeFractionalLicense {
   @ManyToOne('NodeLicense', 'fractional_licenses', { onDelete: 'RESTRICT' })
   license: NodeLicense;
 
+  @Column({ type: 'decimal', precision: 20 })
+  amount_paid: number
+
+  @Column()
+  receipt_hash: string
+
   @ManyToOne('NodeOwner', 'fractional_licenses', { onDelete: 'RESTRICT' })
   owner: NodeOwner;
 
@@ -18,4 +24,4 @@ export class NodeFractionalLicense {
 
   @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
   updated_at: Date;
-}
+} 
