@@ -19,9 +19,9 @@ app.post("/purchase", purchaseShares);
 app.post("/distribute", distributeRewards);
 app.post("/claim", claimRewards);
 
-
 app.use(function (req, res, next) {
     console.log("Not Found")
+    res.status(404).send({ absolutely: "Nothing Here" })
 });
 
 app.use(function (err, req, res, next) {
