@@ -18,7 +18,9 @@
       "node_modules"
    ],
    "include": [
-      "src/**/*"
+      "src/**/*",
+      "mini-blockchain/Blockchain",
+      "mini-blockchain"
    ],
    "paths": {
       "@models/*": [

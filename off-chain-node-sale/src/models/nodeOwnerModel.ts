@@ -1,5 +1,3 @@
-'use strict'
-
 import { dataSource } from "../data-source";
 import { NodeOwner } from "../entities/NodeOwner";
 
@@ -31,5 +29,12 @@ export class NodeOwnerModel {
 
     async findAllNodeOwners(): Promise<NodeOwner[]> {
         return await this.nodeOwnerRepository.find()
+    }
+
+    async fractionalLicenses(user: NodeOwner) {
+        const { NodeLicensingModel } = await import('./index');
+        const models = new NodeLicensingModel()
+        const licenses = await models.fractions.belongsTo(user)
+        console.log({ licenses })
     }
 }

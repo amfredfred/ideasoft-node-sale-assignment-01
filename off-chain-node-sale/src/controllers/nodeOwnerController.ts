@@ -1,7 +1,7 @@
 'use strict'
 
 import { Request, Response } from "express";
-import { NodeOwnerModel } from "../models/nodeOwnerModel";
+import { NodeOwnerModel } from "../models/NodeOwnerModel";
 
 const Nom = new NodeOwnerModel();
 
@@ -17,7 +17,7 @@ export const purchaseShares = async (req: Request, res: Response) => {
         await Nom.updateNodeOwner(nodeOwner.id, nodeOwner.shares, nodeOwner.rewards);
     }
     res.send('Shares purchased successfully');
-}; 
+};
 
 export const distributeRewards = async (req: Request, res: Response) => {
     const { totalRewards } = req.body;
@@ -34,7 +34,7 @@ export const claimRewards = async (req: Request, res: Response) => {
     console.log(req)
     const { address } = req.body;
     let owner = await Nom.findNodeOwnerByAddress(address);
-    if (owner && owner.rewards > 0) { 
+    if (owner && owner.rewards > 0) {
         const rewards = owner.rewards;
         owner.rewards = 0;
         await Nom.updateNodeOwner(owner.id, owner.shares, owner.rewards);

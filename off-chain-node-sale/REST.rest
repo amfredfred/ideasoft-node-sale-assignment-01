@@ -1,7 +1,7 @@
 GET http://localhost:8080
 
 ###
-POST http://localhost:8080/claim
+POST http://localhost:8080/buy-fraction
 Content-Type: application/json
 
 {

@@ -1,6 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
+import { NodeOwner } from '../entities/NodeOwner';
 
-function onRequestReceived(req: Request, res: Response<any>, next: NextFunction) {
+export type ICustomRequest = {
+    user: NodeOwner
+} & Request
+
+function onRequestReceived(req: ICustomRequest, res: Response<any>, next: NextFunction) {
     console.log(`Request Received Timestamp: ${Date.now()}`)
     next()
     console.log(`Response Sent Timestamp: ${Date.now()}`)
