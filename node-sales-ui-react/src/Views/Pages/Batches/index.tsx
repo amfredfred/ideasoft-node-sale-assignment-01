@@ -41,6 +41,7 @@ function Batches() {
                     </div>
                 ))
             }
+            <a href="/purchase" className='navigate-link'>Purchase NFT</a>
         </div>
     );
 }

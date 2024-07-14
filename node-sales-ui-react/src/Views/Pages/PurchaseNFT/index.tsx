@@ -1,45 +1,74 @@
-'use strict'
-
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import MasterLayout from '../../Layouts/MasterLayout';
 import { FractionalNFT } from '../../../Types';
-
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { useAccount, useConnect } from 'wagmi';
+import Loading from '../../Components/Loading';
+import { metaMask } from 'wagmi/connectors';
 
 function PurchaseNFT() {
-    const [walletAddress, setWalletAddress] = useState('');
-    const [fractionalNFTContractAddress, setFractionalNFTContractAddress] = useState('');
-    const [fractionalNFTTokenID, setFractionalNFTTokenID] = useState('');
-    const [chain, setChain] = useState('');
-    const [chainID, setChainID] = useState('');
+
+    //
+    const { connect, isPending } = useConnect()
+    const { isConnected, address, chain } = useAccount()
+    const [quantity, setQuantity] = useState(1)
+
+    const queryFractions = useQuery({
+        queryKey: ['nft-fracctions'],
+        queryFn: async () => await axios.get<FractionalNFT>('http://localhost:8080/fractions', { headers: { address } })
+    })
+
+    const purchaseMutate = useMutation({
+        mutationFn: async (data) => await axios.post<FractionalNFT>('http://localhost:8080/purchase', data, { headers: { address } }),
+        mutationKey: ['purchase-mutation']
+    })
 
     const handlePurchase = async () => {
-        try {
-            const response = await axios.post<FractionalNFT>('http://localhost:3000/purchase', {
-                walletAddress,
-                fractionalNFTContractAddress,
-                fractionalNFTTokenID,
-                chain,
-                chainID,
-            });
-            console.log(response.data);
-        } catch (error) {
-            console.error(error);
+        if (!isConnected) connect({ connector: metaMask() })
+        else {
+            purchaseMutate.mutate({
+                walletAddress: address,
+                chain: chain?.name,
+                chainId: chain?.id,
+                quantity
+            } as any)
         }
-    };
+    }
 
-    return (
-        <MasterLayout>
+    useEffect(() => {
+        console.log('LOADED THIS PAGE')
+    }, [])
+
+    useEffect(() => {
+        console.log(queryFractions.data?.data)
+    }, [queryFractions.data?.data, queryFractions.error])
+
+
+    const Content = (
+        <>
             <h1>Purchase Fractional NFT </h1>
-            < input type="text" value={walletAddress} onChange={(e) => setWalletAddress(e.target.value)
-            } placeholder="Wallet Address" />
-            <input type="text" value={fractionalNFTContractAddress} onChange={(e) => setFractionalNFTContractAddress(e.target.value)} placeholder="Fractional NFT Contract Address" />
-            <input type="text" value={fractionalNFTTokenID} onChange={(e) => setFractionalNFTTokenID(e.target.value)} placeholder="Fractional NFT Token ID" />
-            <input type="text" value={chain} onChange={(e) => setChain(e.target.value)} placeholder="Chain" />
-            <input type="text" value={chainID} onChange={(e) => setChainID(e.target.value)} placeholder="Chain ID" />
-            <button onClick={handlePurchase}> Purchase </button>
-        </MasterLayout>
-    );
+
+            <div className="range-input-container">
+                <strong>{quantity}</strong>
+                <input
+                    onChange={({ target: { value } }) => setQuantity(Number(value))}
+                    type="range"
+                    className='range-input'
+                    step={1}
+                    max={10}
+                    min={1} />
+            </div>
+
+            <div className="button-container">
+                <button onClick={handlePurchase} type="button" className='button-main' >
+                    {isConnected ? 'Purchase' : (isPending ? <Loading /> : 'Connect Wallet')}
+                </button>
+            </div>
+        </>
+    )
+
+    return <MasterLayout children={Content} />
 }
 
 export default PurchaseNFT;
