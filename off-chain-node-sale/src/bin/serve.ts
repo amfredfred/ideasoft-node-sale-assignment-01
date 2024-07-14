@@ -38,7 +38,7 @@ const createDatabase = async () => {
 async function beginServing() {
     await createDatabase();
     await dataSource.initialize()
-    server.listen(PORT);
+    server.listen(PORT,);
     server.on('error', console.log);
     server.on('listening', () => console.log(`Serving Express On Port: ${PORT}`));
     return "All Good"

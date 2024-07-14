@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
-import { NodeOwner } from '../entities/NodeOwner';
+import { NFTOwner } from '../entities/NFTOwner';
 
 export type ICustomRequest = {
-    user: NodeOwner
+    user: NFTOwner
 } & Request
 
 function onRequestReceived(req: ICustomRequest, res: Response<any>, next: NextFunction) {

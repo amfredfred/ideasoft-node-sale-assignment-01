@@ -1,9 +1,8 @@
 import "reflect-metadata"
 import { DataSource } from "typeorm"
-import { NodeOwner } from "./entities/NodeOwner";
-import { NodeLicense } from "./entities/NodeLicense";
-import { NodeFractionalLicense } from "./entities/NodeFractionalLicense";
-import { NodeLicenseBatch } from "./entities/NodeLicenseBatch";
+import { NFTBatch } from "./entities/NFTBatch";
+import { NFTOwner } from "./entities/NFTOwner";
+import { FractionalNFT } from "./entities/FractionalNFT";
 require('dotenv').config();
 
 const database = process.env.POSTGRESQL_DB
@@ -20,7 +19,7 @@ export const dataSource = new DataSource({
     database,
     synchronize: true,
     // logging: true,
-    entities: [NodeOwner, NodeLicense, NodeFractionalLicense, NodeLicenseBatch],
+    entities: [NFTBatch, NFTOwner, FractionalNFT],
     migrations: ['./migrations/*.ts'],
     subscribers: [],
     migrationsTableName: `${database}_migration_table`,
