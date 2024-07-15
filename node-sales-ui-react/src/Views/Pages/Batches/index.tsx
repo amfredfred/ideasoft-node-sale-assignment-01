@@ -13,11 +13,11 @@ function Batches() {
 
     const queryBatches = useQuery({
         queryKey: ['nft-batches'],
-        queryFn: async () => await axios.get<NFTBatch[]>('http://localhost:8080/batches', { headers: { address } })
+        queryFn: async () => await axios.get<NFTBatch[]>('https://7ba9-105-120-132-153.ngrok-free.app/batches', { headers: { address, 'Accept': 'application/json' } })
     })
 
     useEffect(() => {
-        if (queryBatches.data)
+        if (queryBatches.data?.data)
             setBatches(queryBatches.data.data)
         if (queryBatches.error) {
             console.log(queryBatches.error)
@@ -29,14 +29,13 @@ function Batches() {
             <h1>Batches </h1>
             {queryBatches.isLoading && <Loading />}
             <div style={{ width: '100%', overflow: 'hidden auto', height: '100%', display: 'flex', flexWrap: 'wrap', gap: '1rem', alignItems: 'flex-start' }}>
-                {
-                    batches.map((batch) => (
-                        <div key={batch.id} style={{ background: 'black', borderRadius: 10, padding: '.6rem', width: 'clamp(calc(300px - 1rem), 400px, 100%)', flexGrow: 1 }} >
-                            <h2>Batch {batch.id} </h2>
-                            < p > Filled: {batch.isFilled ? 'Yes' : 'No'} </p>
-                            <h2>Fractions: {batch.fractionalNFTs.length}/10</h2>
-                        </div>
-                    ))
+                {batches.length <= 0 ? "Nothing HEre" : batches.map((batch) => (
+                    <div key={batch.id} style={{ background: 'black', borderRadius: 10, padding: '.6rem', width: 'clamp(calc(300px - 1rem), 400px, 100%)', flexGrow: 1 }} >
+                        <h2>Batch {batch.id} </h2>
+                        < p > Filled: {batch.isFilled ? 'Yes' : 'No'} </p>
+                        <h2>Fractions: {batch.fractionalNFTs.length}/10</h2>
+                    </div>
+                ))
                 }
             </div>
 

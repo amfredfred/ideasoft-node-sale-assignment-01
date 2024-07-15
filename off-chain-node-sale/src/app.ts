@@ -74,7 +74,7 @@ app.post('/purchase', async (req, res) => {
         batch = await dbTransaction.manager.save(batch);
 
         await dbTransaction.commitTransaction()
-        res.send({ message: "Succesful" });
+        res.json({ message: "Succesful" });
     } catch (error) {
         await dbTransaction.rollbackTransaction()
         console.log({ error })
@@ -87,13 +87,13 @@ app.post('/purchase', async (req, res) => {
 
 app.get('/batches', async (req, res) => {
     const batches = await batchRepository.find({ relations: ['fractionalNFTs', 'fractionalNFTs.owner'] });
-    res.send(batches);
+    res.json(batches);
 });
 
 app.get('/fractions', async (req: ICustomRequest, res) => {
     const { user: { walletAddress } } = req
     const fractions = await fractionalNFTRepository.find({ where: { owner: { walletAddress } } });
-    res.send(fractions);
+    res.json(fractions);
 });
 
 app.post('/mint', () => {
