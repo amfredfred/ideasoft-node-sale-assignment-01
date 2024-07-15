@@ -47,8 +47,8 @@ function PurchaseNFT() {
 
     const Content = (
         <>
-            <h1>Purchase Fractional NFT </h1>
-
+            <h2>YOU CAN DO THIS</h2>
+            <p  >Buy 1/10 Fractional NFT</p>
             <div className="range-input-container">
                 <strong>{quantity}</strong>
                 <input
@@ -60,10 +60,17 @@ function PurchaseNFT() {
                     min={1} />
             </div>
 
-            <div className="button-container">
-                <button onClick={handlePurchase} type="button" className='button-main' >
-                    {isConnected ? 'Purchase' : (isPending ? <Loading /> : 'Connect Wallet')}
-                </button>
+            <div className="" style={{ display: 'flex', gap: '1rem', width: '100%' }}>
+                <div className="button-container">
+                    <button onClick={handlePurchase} type="button" className='button-main' >
+                        {(isPending || purchaseMutate.isPending) ? <Loading /> : isConnected ? 'Purchase' : 'Connect Wallet'}
+                    </button>
+                </div>
+                <div className="button-container" style={{ opacity: .4 }}>
+                    <button onClick={handlePurchase} disabled type="button" className='button-main' >
+                        Mint (Soon)
+                    </button>
+                </div>
             </div>
         </>
     )

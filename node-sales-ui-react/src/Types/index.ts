@@ -15,8 +15,8 @@ export type FractionalNFT = {
     fractionalNFTTokenID: string
     chain: string
     chainID: string
+    quantity: number
 }
-
 
 export type NFTOwner = {
     id: number;

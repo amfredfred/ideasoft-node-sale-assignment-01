@@ -23,5 +23,8 @@ export class FractionalNFT {
   chain: string;
 
   @Column()
+  quantity: number
+
+  @Column()
   chainID: string;
 }

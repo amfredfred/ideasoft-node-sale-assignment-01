@@ -24,6 +24,7 @@ const fractionalNFTRepository = dataSource.getRepository(FractionalNFT);
 const batchRepository = dataSource.getRepository(NFTBatch);
 
 app.post('/purchase', async (req, res) => {
+    const dbTransaction = dataSource.createQueryRunner()
     try {
         const { walletAddress, chain, chainId, quantity } = req.body;
 
@@ -33,14 +34,15 @@ app.post('/purchase', async (req, res) => {
         }
 
         const fractions = await fractionalNFTRepository.findOne({ where: { owner: { walletAddress } } });
-        if (fractions) return res.status(401).send({ message: "You have some fractions already." })
+        // if (fractions) return res.status(401).send({ message: "You have some fractions already." })
         if (!walletAddress) return res.status(401).send({ message: "Your address is invalid" })
 
+        await dbTransaction.startTransaction()
         let user = await userRepository.findOne({ where: { walletAddress } });
         if (!user) {
             user = new NFTOwner();
             user.walletAddress = walletAddress;
-            await userRepository.save(user);
+            await dbTransaction.manager.save(user);
         }
 
         const fractionalNFT = new FractionalNFT();
@@ -49,12 +51,16 @@ app.post('/purchase', async (req, res) => {
         fractionalNFT.fractionalNFTTokenID = contract.fractionalNFTTokenID;
         fractionalNFT.chain = chain;
         fractionalNFT.chainID = chainId;
+        fractionalNFT.quantity = quantity
 
         let batch = await batchRepository.findOne({ where: { isFilled: false }, relations: ['fractionalNFTs'] });
         if (!batch) {
             batch = new NFTBatch();
             batch.fractionalNFTs = [];
-            batch = await batchRepository.save(batch);
+            batch = await dbTransaction.manager.save(batch);
+            batch.nodeLicenseContractAddress = '0xNodeLicenseContractAddress';
+            batch.nodeLicenseTokenID = 'NodeLicenseTokenID';
+            batch.chain = chain;
         }
 
         fractionalNFT.batch = batch;
@@ -62,18 +68,20 @@ app.post('/purchase', async (req, res) => {
 
         if (batch.fractionalNFTs.length === 10) {
             batch.isFilled = true;
-            batch.nodeLicenseContractAddress = '0xNodeLicenseContractAddress';
-            batch.nodeLicenseTokenID = 'NodeLicenseTokenID';
-            batch.chain = chain;
         }
 
-        await fractionalNFTRepository.save(fractionalNFT);
-        batch = await batchRepository.save(batch);
+        await dbTransaction.manager.save(fractionalNFT);
+        batch = await dbTransaction.manager.save(batch);
 
-        res.send(batch);
+        await dbTransaction.commitTransaction()
+        res.send({ message: "Succesful" });
     } catch (error) {
+        await dbTransaction.rollbackTransaction()
         console.log({ error })
         res.status(500).json(error)
+    }
+    finally {
+        await dbTransaction.release()
     }
 });
 

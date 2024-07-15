@@ -17,7 +17,7 @@ const createDatabase = async () => {
     const client = new Client({
         user: username,
         host: 'localhost',
-        password: password,
+        password: password, 
         port: postgres_port,
     });
 
