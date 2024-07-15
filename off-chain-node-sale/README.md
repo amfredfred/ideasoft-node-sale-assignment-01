@@ -20,6 +20,9 @@ Database Creation
 - The application creates a PostgreSQL database using the provided environment variables. If the database already exists, it will log a message indicating that the database already exists.
 
 ## Server Startup
+
+cd off-chain-node-sale
+
 install dependecies: npm i
 
 Tthere is no need to create database server will do that for you if it does not exists, and
