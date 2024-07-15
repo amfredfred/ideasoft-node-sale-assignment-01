@@ -14,7 +14,6 @@ POSTGRESQL_DB: The name of the PostgreSQL database to create
 POSTGRESQL_USERNAME: The username to use for the PostgreSQL connection
 POSTGRESQL_PASSWORD: The password to use for the PostgreSQL connection
 POSTGRES_PORT: The port number to use for the PostgreSQL connection (default: 5432)
-Database Creation
 ```
 
 - The application creates a PostgreSQL database using the provided environment variables. If the database already exists, it will log a message indicating that the database already exists.
@@ -25,7 +24,8 @@ cd off-chain-node-sale
 
 install dependecies: npm i
 
-Tthere is no need to create database server will do that for you if it does not exists, and
+Database Creation
+There is no need to create database server will do that for you if it does not exists, and
 # Generate SQL Schema
 typeOrm handles this if synchronize:true : ignore
 ```ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js schema:log -d src/data-source.ts```
