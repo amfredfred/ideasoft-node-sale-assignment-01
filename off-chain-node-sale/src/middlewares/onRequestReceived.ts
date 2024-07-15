@@ -7,8 +7,14 @@ export type ICustomRequest = {
 } & Request
 
 async function onRequestReceived(req: ICustomRequest, res: Response<any>, next: NextFunction) {
-    const user = await dataSource.manager.findOne(NFTOwner, { where: { walletAddress: String(req.headers?.address) } })
-    if (!user) return res.status(404).send({ message: "User Not Found" })
+    let user = await dataSource.manager.findOne(NFTOwner, { where: { walletAddress: String(req.headers?.address) } })
+    if (!user) {
+        if (!req.headers?.address)
+            return res.status(404).send({ message: "User Not Found" })
+        user = new NFTOwner();
+        user.walletAddress = String(req.headers?.address)
+        await dataSource.manager.save(user);
+    }
     req.user = user
     console.log(`Request Received Timestamp: ${Date.now()}`)
     next()

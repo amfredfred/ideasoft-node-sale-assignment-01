@@ -23,10 +23,12 @@ const userRepository = dataSource.getRepository(NFTOwner);
 const fractionalNFTRepository = dataSource.getRepository(FractionalNFT);
 const batchRepository = dataSource.getRepository(NFTBatch);
 
-app.post('/purchase', async (req, res) => {
+app.post('/purchase', async (req: ICustomRequest, res) => {
     const dbTransaction = dataSource.createQueryRunner()
     try {
-        const { walletAddress, chain, chainId, quantity } = req.body;
+        const { body: { walletAddress, chain, chainId, quantity }, user } = req;
+
+        console.log({ walletAddress, chain, chainId, quantity })
 
         const contract = {
             fractionalNFTContractAddress: 'fractionalNFTContractAddress',
@@ -38,12 +40,7 @@ app.post('/purchase', async (req, res) => {
         if (!walletAddress) return res.status(401).send({ message: "Your address is invalid" })
 
         await dbTransaction.startTransaction()
-        let user = await userRepository.findOne({ where: { walletAddress } });
-        if (!user) {
-            user = new NFTOwner();
-            user.walletAddress = walletAddress;
-            await dbTransaction.manager.save(user);
-        }
+
 
         const fractionalNFT = new FractionalNFT();
         fractionalNFT.owner = user;
@@ -74,7 +71,7 @@ app.post('/purchase', async (req, res) => {
         batch = await dbTransaction.manager.save(batch);
 
         await dbTransaction.commitTransaction()
-        res.json({ message: "Succesful" });
+        res.json({ message: `Succesfully purchase ${quantity} nodes` });
     } catch (error) {
         await dbTransaction.rollbackTransaction()
         console.log({ error })

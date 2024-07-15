@@ -4,12 +4,12 @@ import { NFTBatch } from '../../../Types';
 import { useQuery } from '@tanstack/react-query';
 import Loading from '../../Components/Loading';
 import { useAccount } from 'wagmi';
-import { Link } from 'react-router-dom';
-
+import { Link } from 'react-router-dom'; 
 
 function Batches() {
     const [batches, setBatches] = useState<NFTBatch[]>([]);
     const { address } = useAccount()
+
 
     const queryBatches = useQuery({
         queryKey: ['nft-batches'],
