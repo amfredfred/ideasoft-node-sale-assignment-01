@@ -26,28 +26,23 @@ const batchRepository = dataSource.getRepository(NFTBatch);
 app.post('/purchase', async (req: ICustomRequest, res) => {
     const dbTransaction = dataSource.createQueryRunner()
     try {
-        const { body: { walletAddress, chain, chainId, quantity }, user } = req;
+        const { body: { chain, chainId, quantity }, user } = req;
 
-        console.log({ walletAddress, chain, chainId, quantity })
+        console.log({ chain, chainId, quantity })
 
         const contract = {
             fractionalNFTContractAddress: 'fractionalNFTContractAddress',
             fractionalNFTTokenID: 'fractionalNFTTokenID',
-        }
+        } 
 
-        const fractions = await fractionalNFTRepository.findOne({ where: { owner: { walletAddress } } });
-        // if (fractions) return res.status(401).send({ message: "You have some fractions already." })
-        if (!walletAddress) return res.status(401).send({ message: "Your address is invalid" })
-
-        await dbTransaction.startTransaction()
-
+        await dbTransaction.startTransaction() 
 
         const fractionalNFT = new FractionalNFT();
         fractionalNFT.owner = user;
         fractionalNFT.fractionalNFTContractAddress = contract.fractionalNFTContractAddress;
         fractionalNFT.fractionalNFTTokenID = contract.fractionalNFTTokenID;
         fractionalNFT.chain = chain;
-        fractionalNFT.chainID = chainId;
+        fractionalNFT.chainID = String(chainId);
         fractionalNFT.quantity = quantity
 
         let batch = await batchRepository.findOne({ where: { isFilled: false }, relations: ['fractionalNFTs'] });
