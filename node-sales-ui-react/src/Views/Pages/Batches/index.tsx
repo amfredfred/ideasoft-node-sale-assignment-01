@@ -13,7 +13,7 @@ function Batches() {
 
     const queryBatches = useQuery({
         queryKey: ['nft-batches'],
-        queryFn: async () => await axios.get<NFTBatch[]>('https://7ba9-105-120-132-153.ngrok-free.app/batches', { headers: { address, 'Accept': 'application/json' } })
+        queryFn: async () => await axios.get<NFTBatch[]>('http://localhost:8080/batches', { headers: { address, 'Accept': 'application/json' } })
     })
 
     useEffect(() => {

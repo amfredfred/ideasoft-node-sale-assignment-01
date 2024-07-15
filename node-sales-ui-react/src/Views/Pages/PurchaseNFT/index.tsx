@@ -16,11 +16,11 @@ function PurchaseNFT() {
 
     const queryFractions = useQuery({
         queryKey: ['nft-fracctions'],
-        queryFn: async () => await axios.get<FractionalNFT>('https://7ba9-105-120-132-153.ngrok-free.app/fractions', { headers: { address } })
+        queryFn: async () => await axios.get<FractionalNFT>('http://localhost:8080/fractions', { headers: { address } })
     })
 
     const purchaseMutate = useMutation({
-        mutationFn: async (data) => await axios.post<FractionalNFT>('https://7ba9-105-120-132-153.ngrok-free.app/purchase', data, { headers: { address } }),
+        mutationFn: async (data) => await axios.post<FractionalNFT>('http://localhost:8080/purchase', data, { headers: { address } }),
         mutationKey: ['purchase-mutation']
     })
 
